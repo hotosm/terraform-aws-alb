@@ -4,7 +4,7 @@ data "aws_acm_certificate" "wildcard" {
   most_recent = true
 }
 
-resource "aws_security_group" "alb" {
+resource "aws_security_group" "public" {
   name        = "alb_public_access"
   description = "Public access for load balancer"
   vpc_id      = var.vpc_id
@@ -36,11 +36,33 @@ resource "aws_security_group" "alb" {
   }
 }
 
+resource "aws_security_group" "lb-app" {
+  name        = "alb_app_access"
+  description = "App access from self"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "Allow app port connections from self"
+    from_port   = var.app_port
+    to_port     = var.app_port
+    protocol    = "tcp"
+    self        = true
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "all"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+}
+
 resource "aws_lb" "public" {
   name               = lookup(var.project_meta, "name")
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb.id]
+  security_groups    = [aws_security_group.public.id]
   subnets            = var.alb_subnets
 
   enable_deletion_protection = false
