@@ -10,11 +10,6 @@ variable "project_meta" {
   }
 }
 
-variable "deployment_environment" {
-  description = "Deployment flavour or variant identified by this name"
-  type        = string
-}
-
 variable "default_tags" {
   description = "Default resource tags to apply to AWS resources"
   type        = map(string)
