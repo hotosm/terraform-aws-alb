@@ -62,8 +62,11 @@ resource "aws_lb" "public" {
   name               = var.alb_name
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.public.id]
-  subnets            = var.alb_subnets
+  security_groups = [
+    aws_security_group.public.id,
+    aws_security_group.lb-app.id
+  ]
+  subnets = var.alb_subnets
 
   enable_deletion_protection = false
   ip_address_type            = "dualstack"
