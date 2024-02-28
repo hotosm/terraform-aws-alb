@@ -1,12 +1,20 @@
-variable "project_meta" {
-  description = "Metadata relating to the project for which the VPC is being created"
-  type        = map(string)
+variable "alb_name" {
+  description = "Name / identifier of the application load balancer"
+  type        = string
 
-  default = {
-    name       = ""
-    short_name = ""
-    version    = ""
-    url        = ""
+  validation {
+    condition     = length(var.alb_name) <= 32
+    error_message = "Name string cannot be longer than 32 characters"
+  }
+}
+
+variable "target_group_name" {
+  description = "Name / identifier of the app target group"
+  type        = string
+
+  validation {
+    condition     = length(var.target_group_name) <= 32
+    error_message = "Name string cannot be longer than 32 characters"
   }
 }
 

@@ -59,7 +59,7 @@ resource "aws_security_group" "lb-app" {
 }
 
 resource "aws_lb" "public" {
-  name               = lookup(var.project_meta, "name")
+  name               = var.alb_name
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.public.id]
@@ -72,7 +72,7 @@ resource "aws_lb" "public" {
 }
 
 resource "aws_lb_target_group" "main" {
-  name            = lookup(var.project_meta, "name")
+  name            = var.target_group_name
   port            = var.app_port
   protocol        = "HTTP"
   vpc_id          = var.vpc_id
