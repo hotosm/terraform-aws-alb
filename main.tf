@@ -5,7 +5,7 @@ data "aws_acm_certificate" "wildcard" {
 }
 
 resource "aws_security_group" "public" {
-  name        = "alb_public_access"
+  name_prefix = "alb_public_access"
   description = "Public access for load balancer"
   vpc_id      = var.vpc_id
 
@@ -37,7 +37,7 @@ resource "aws_security_group" "public" {
 }
 
 resource "aws_security_group" "lb-app" {
-  name        = "alb_app_access"
+  name_prefix = "alb_app_access"
   description = "App access from self"
   vpc_id      = var.vpc_id
 
