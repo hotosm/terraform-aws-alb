@@ -1,9 +1,9 @@
-variable "alb_name_prefix" {
-  description = "Name / identifier prefix for the application load balancer"
+variable "alb_name" {
+  description = "Name / identifier of the application load balancer"
   type        = string
 
   validation {
-    condition     = length(var.alb_name_prefix) <= 32
+    condition     = length(var.alb_name) <= 32
     error_message = "Name string cannot be longer than 32 characters"
   }
 }
