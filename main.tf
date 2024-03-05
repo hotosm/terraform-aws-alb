@@ -2,6 +2,8 @@ data "aws_acm_certificate" "wildcard" {
   domain      = var.acm_tls_cert_domain
   statuses    = ["ISSUED"]
   most_recent = true
+
+  key_types = ["RSA_2048", "RSA_3072", "RSA_4096", "EC_prime256v1", "EC_secp384r1", "EC_secp521r1"]
 }
 
 resource "aws_security_group" "public" {
