@@ -13,6 +13,11 @@ output "load_balancer_dns" {
   value       = aws_lb.public.dns_name
 }
 
+output "load_balancer_dns_zone" {
+  description = "ARN of the application load balancer"
+  value       = aws_lb.public.zone_id
+}
+
 output "target_group_arn" {
   description = "ARN of the load balancer target group"
   value       = aws_lb_target_group.main.arn
