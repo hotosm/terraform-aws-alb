@@ -61,7 +61,7 @@ resource "aws_security_group" "lb-app" {
 }
 
 resource "aws_lb" "public" {
-  name               = var.alb_name
+  name_prefix        = var.alb_name_prefix
   internal           = false
   load_balancer_type = "application"
   security_groups = [
