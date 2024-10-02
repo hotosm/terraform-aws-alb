@@ -3,6 +3,11 @@ output "load_balancer_arn" {
   value       = aws_lb.public.arn
 }
 
+output "load_balancer_secure_listner_arn" {
+  description = "ARN of the application load balancer"
+  value       = aws_lb_listener.secure.arn
+}
+
 output "load_balancer_arn_suffix" {
   description = "ARN of the application load balancer"
   value       = aws_lb.public.arn_suffix
