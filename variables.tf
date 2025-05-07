@@ -43,9 +43,14 @@ variable "health_check_path" {
   default = "/"
 }
 
-variable "acm_tls_cert_domain" {
-  description = "Load balancer TLS certificate domain"
-  type        = string
+# variable "acm_tls_cert_domain" {
+#   description = "Load balancer TLS certificate domain"
+#   type        = string
+# }
+
+variable "acm_tls_cert_backend_arn" {
+  description = "ARN value for backend certificate"
+  type = string
 }
 
 variable "tls_cipher_policy" {

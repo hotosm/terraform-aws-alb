@@ -1,10 +1,11 @@
-data "aws_acm_certificate" "wildcard" {
-  domain      = var.acm_tls_cert_domain
-  statuses    = ["ISSUED"]
-  most_recent = true
+## Removed in favor of direct arn value 
+# data "aws_acm_certificate" "wildcard" {
+#   domain      = var.acm_tls_cert_domain
+#   statuses    = ["ISSUED"]
+#   most_recent = true
 
-  key_types = ["RSA_2048", "RSA_3072", "RSA_4096", "EC_prime256v1", "EC_secp384r1", "EC_secp521r1"]
-}
+#   key_types = ["RSA_2048", "RSA_3072", "RSA_4096", "EC_prime256v1", "EC_secp384r1", "EC_secp521r1"]
+# }
 
 resource "aws_security_group" "public" {
   name_prefix = "alb_public_access"
@@ -78,7 +79,7 @@ resource "aws_lb" "public" {
 
 resource "aws_lb_target_group" "main" {
   name            = var.target_group_name
-  port            = var.app_port
+  port            = 80
   protocol        = "HTTP"
   vpc_id          = var.vpc_id
   target_type     = "ip"
@@ -87,12 +88,13 @@ resource "aws_lb_target_group" "main" {
   health_check {
     enabled = true
     path    = var.health_check_path
-    port    = "traffic-port"
+    port    = var.app_port
 
-    healthy_threshold   = 3
+    healthy_threshold   = 2
     unhealthy_threshold = 3
     interval            = 30
     timeout             = 6
+    matcher             = "200-499"
   }
 }
 
@@ -101,7 +103,7 @@ resource "aws_lb_listener" "secure" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = var.tls_cipher_policy
-  certificate_arn   = data.aws_acm_certificate.wildcard.arn
+  certificate_arn   = var.acm_tls_cert_backend_arn
 
   default_action {
     type             = "forward"
